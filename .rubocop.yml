@@ -1,0 +1,38 @@
+AllCops:
+  TargetRubyVersion: 3.2.2
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude: 
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'vendor/**/*'
+    - 'config/**/*'
+    - 'app/mailers/**/*'
+    - 'spec/spec_helper.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  AllowedMethods: ['describe', 'context', 'let']
+
+Metrics/ClassLength:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+    Enabled: false
+
+Layout/LineLength:
+  Max: 100
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/ReturnNilInPredicateMethodDefinition:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
