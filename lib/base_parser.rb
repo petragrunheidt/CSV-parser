@@ -2,7 +2,8 @@ require 'yaml'
 
 class BaseParser
   attr_reader :csv, :row_config
-  TRANSLATION_PATH = './row_config'
+
+  TRANSLATION_PATH = './lib/row_config'.freeze
 
   def initialize(file_path, row_config)
     @csv_file_name = File.basename(file_path, '.csv')
@@ -11,11 +12,10 @@ class BaseParser
   end
 
   def call
-    row_config = load_config[@csv_file_name]
+    translation_hash = load_config[@csv_file_name]
 
     CSV.parse(@csv_body, col_sep: ',', row_sep: "\n", headers: true).each_with_object([]) do |csv_row, result|
-      translation_object = row_config['translations']
-      row = csv_row.to_h.slice(*translation_object.keys).transform_keys { |k| translation_object[k].to_sym }
+      row = translate_row(csv_row, translation_hash)
 
       identifier = row.first[1]
       next unless identifier
@@ -33,6 +33,16 @@ class BaseParser
       row_sep: "\n",
       headers: true
       )
+  end
+
+  def translate_row(data_hash, translation_hash)
+    translation_hash.each_with_object({}) do |(key, details), result|
+      translation = details["translation"].to_sym
+      result[translation] = { 
+                              value: data_hash[key],
+                              error_policy: 'warn' || details["error_policy"]
+                            }
+    end
   end
 
   def load_config

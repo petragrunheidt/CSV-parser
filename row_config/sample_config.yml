@@ -1,6 +1,0 @@
-sample:
-  translations:
-    id: 'id'
-    nome: name
-    idade: age
-    diagnostico: diagnosis

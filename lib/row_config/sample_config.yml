@@ -1,0 +1,13 @@
+sample:
+  id:
+    translation: id
+    error_policy: warn
+  nome:
+    translation: name
+    error_policy: warn
+  idade:
+    translation: age
+    error_policy: warn
+  diagnostico: 
+    translation: diagnosis
+    error_policy: warn

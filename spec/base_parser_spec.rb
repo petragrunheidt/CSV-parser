@@ -1,6 +1,6 @@
 require 'csv'
 require 'spec_helper'
-require './base_parser'
+require './lib/base_parser'
 
 RSpec.describe BaseParser do
   context 'when parsing the sample csv file' do
