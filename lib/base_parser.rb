@@ -14,7 +14,8 @@ class BaseParser
   def call
     translation_hash = load_config[@csv_file_name]
 
-    CSV.parse(@csv_body, col_sep: ',', row_sep: "\n", headers: true).each_with_object([]) do |csv_row, result|
+    CSV.parse(@csv_body, col_sep: ',', row_sep: "\n",
+                         headers: true).each_with_object([]) do |csv_row, result|
       row = translate_row(csv_row, translation_hash)
 
       identifier = row.first[1]
@@ -32,16 +33,16 @@ class BaseParser
       col_sep: ',',
       row_sep: "\n",
       headers: true
-      )
+    )
   end
 
   def translate_row(data_hash, translation_hash)
     translation_hash.each_with_object({}) do |(key, details), result|
-      translation = details["translation"].to_sym
-      result[translation] = { 
-                              value: data_hash[key],
-                              error_policy: 'warn' || details["error_policy"]
-                            }
+      translated_key = details['translation'].to_sym
+      result[translated_key ] = {
+        value: data_hash[key],
+        error_policy: 'warn' || details['error_policy']
+      }
     end
   end
 
