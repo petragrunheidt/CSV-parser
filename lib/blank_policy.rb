@@ -1,26 +1,22 @@
 module BlankPolicy
-  def handle_blank(option)
-    case option
-    when 'error'
-      handle_error
-    when 'warn'
-      handle_warn
-    else
-      handle_default
-    end
+  def handle_blank(key, value, option)
+    return if !value.nil? || option == 'ignore'
+    return handle_error(key) if option == 'error'
+
+    handle_warn(key)
   end
 
   private
 
-  def handle_error
-    puts 'Handling error'
+  def handle_error(attribute)
+    "Error: Blank value for '#{attribute}'"
   end
 
-  def handle_warn
-    puts 'Handling warning'
+  def handle_warn(attribute)
+    "Warning: Blank value for '#{attribute}'"
   end
 
-  def handle_default
-    puts 'Handling default case'
+  def handle_ignore
+    nil
   end
 end

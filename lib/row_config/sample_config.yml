@@ -6,5 +6,6 @@ sample:
     translation: name
   idade:
     translation: age
+    blank_polity: warn
   diagnostico: 
     translation: diagnosis

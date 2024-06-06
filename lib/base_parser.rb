@@ -14,13 +14,14 @@ class BaseParser
 
   def call
     CSV.parse(@csv_body, col_sep: ',', row_sep: "\n",
-                         headers: true).each_with_object([]) do |csv_row, result|
+                         headers: true)
+       .each_with_object({ data: [], errors: {} })
+       .with_index do |(csv_row, result), index|
       row = translate_row(csv_row, @translation_hash)
+      row_number = :"row-#{index + 1}"
 
-      identifier = row.first[1]
-      next unless identifier
-
-      result << row
+      result[:data] << row[:data]
+      result[:errors][row_number] = row[:errors]
     end
   end
 
@@ -36,11 +37,14 @@ class BaseParser
   end
 
   def translate_row(data_hash, translation_hash)
-    translation_hash.each_with_object({}) do |(key, details), result|
-      translated_key = details['translation'].to_sym
-      result[translated_key] = data_hash[key]
+    translation_hash
+      .each_with_object({ data: {}, errors: [] }) do |(key, attribute_policy), result|
+      translated_key = attribute_policy['translation'].to_sym
 
-      handle_blank('warn' || details['error_policy']) if data_hash[key].nil?
+      error = handle_blank(key, data_hash[key], attribute_policy['blank_policy'])
+      result[:errors] << error unless error.nil?
+
+      result[:data][translated_key] = data_hash[key]
     end
   end
 end

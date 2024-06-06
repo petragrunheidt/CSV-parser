@@ -1,6 +1,6 @@
 id,nome,idade,diagnostico
 101,John Doe,45,Hypertension
-102,Jane Smith,32,Type 2 Diabetes
+102,Jane Smith,,Type 2 Diabetes
 103,Michael Johnson,60,Arthritis
 104,Emily Brown,28,Seasonal Allergies
 105,David Martinez,50,Chronic Obstructive Pulmonary Disease
