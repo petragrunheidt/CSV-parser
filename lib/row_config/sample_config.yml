@@ -1,11 +1,12 @@
 sample:
   id:
     translation: id
-    blank_polity: warn #default value
+    blank_policy: error
   nome:
     translation: name
   idade:
     translation: age
-    blank_polity: warn
+    blank_polity: warn #default value
   diagnostico: 
     translation: diagnosis
+    blank_policy: ignore

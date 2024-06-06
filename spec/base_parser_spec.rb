@@ -21,11 +21,27 @@ RSpec.describe BaseParser do
     end
 
     context 'blank_policy' do
+      context 'error' do
+        it 'correctly saves error of missing attribute in the second row' do
+          parsed_list = BaseParser.new(csv_path, 'sample').call
+
+          expect(parsed_list[:errors][:'row-1']).to include('Error: Blank value for \'id\'')
+        end
+      end
+
       context 'warn' do
         it 'correctly saves warning of missing attribute in the second row' do
           parsed_list = BaseParser.new(csv_path, 'sample').call
 
           expect(parsed_list[:errors][:'row-2']).to include('Warning: Blank value for \'idade\'')
+        end
+      end
+
+      context 'ignore' do
+        it 'does not save warning if policy is set to ignore' do
+          parsed_list = BaseParser.new(csv_path, 'sample').call
+
+          expect(parsed_list[:errors][:'row-3']).to be_empty
         end
       end
     end
