@@ -20,7 +20,10 @@ Metrics/ClassLength:
   Enabled: false
 
 Style/ClassAndModuleChildren:
-    Enabled: false
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
 
 Layout/LineLength:
   Max: 100
