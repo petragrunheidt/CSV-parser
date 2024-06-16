@@ -1,5 +1,5 @@
-require_relative 'yml_loader'
-require_relative 'blank_policy'
+require_relative 'concerns/blank_policy'
+require_relative 'concerns/yml_loader'
 
 class BaseParser
   include YmlLoader

@@ -1,7 +1,7 @@
 require 'yaml'
 
 module YmlLoader
-  TRANSLATION_PATH = './lib/row_config'.freeze
+  TRANSLATION_PATH = './lib/parser/row_config'.freeze
 
   def load_yml(key)
     yml_paths = Dir.glob(File.join(TRANSLATION_PATH, '*.yml'))
