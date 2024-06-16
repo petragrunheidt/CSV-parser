@@ -2,6 +2,7 @@ require_relative 'concerns/type_conversions'
 
 class BaseConverter
   include TypeConversions
+  attr_reader :value, :conversion_method
 
   def initialize(value, conversion_method)
     @value = value

@@ -1,9 +1,11 @@
-# Variables
-DOCKER_RUN = docker run --rm -v $(PWD):/csv-parser -w /csv-parser
+DOCKER_RUN = docker run --rm \
+-v $(PWD):/csv-parser \
+-v rubygems:/usr/local/bundle \
+-v gemconfig:/root/.local/share/gem \
+-w /csv-parser
 
-# Development Commands
 bash:
-	$(DOCKER_RUN) -it ruby:3.3 bash && bundle
+	$(DOCKER_RUN) -it ruby:3.3 bash
 
 test:
 	$(DOCKER_RUN) -it ruby:3.3 bundle install
