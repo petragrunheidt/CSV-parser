@@ -45,5 +45,14 @@ RSpec.describe BaseParser do
         end
       end
     end
+
+    context 'converter' do
+      it 'successfully reads and applies basic conversion from yml convert key' do
+        parsed_list = BaseParser.new(csv_path, 'sample').call
+        sample_age_value = parsed_list[:data][0][:age]
+
+        expect(sample_age_value.class).to eq(Integer)
+      end
+    end
   end
 end

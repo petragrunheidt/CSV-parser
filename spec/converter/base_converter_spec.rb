@@ -42,6 +42,12 @@ RSpec.describe BaseConverter do
       end
     end
 
+    it 'returns original value if conversion_kind is nil' do
+      converter = BaseConverter.new('value', nil)
+
+      expect(converter.call).to eq('value')
+    end
+
     it 'raises error if conversion kind is not supported' do
       converter = BaseConverter.new('hi', 'unsupported_conversion_kind')
       error_message = 'Conversion type unsupported_conversion_kind not supported'

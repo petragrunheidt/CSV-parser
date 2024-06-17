@@ -6,10 +6,12 @@ class BaseConverter
 
   def initialize(value, conversion_method)
     @value = value
-    @conversion_method = conversion_method.to_sym
+    @conversion_method = conversion_method&.to_sym
   end
 
   def call
+    return @value if @conversion_method.nil?
+
     conversion_lambda = CONVERSION_METHODS[@conversion_method]
     raise "Conversion type #{@conversion_method} not supported" unless conversion_lambda
 
