@@ -10,11 +10,11 @@ class BaseConverter
   end
 
   def call
-    return @value if @conversion_method.nil?
+    return @value if conversion_method.nil?
 
-    conversion_lambda = CONVERSION_METHODS[@conversion_method]
-    raise "Conversion type #{@conversion_method} not supported" unless conversion_lambda
+    conversion_lambda = CONVERSION_METHODS[conversion_method]
+    raise "Conversion type #{conversion_method} not supported" unless conversion_lambda
 
-    conversion_lambda.call(@value)
+    conversion_lambda.call(value)
   end
 end
