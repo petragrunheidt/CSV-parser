@@ -8,7 +8,8 @@ The CSV Parsing Tool is a Ruby-based utility designed to parse and translate CSV
 
 - **YAML Configuration**: Load configurations from a YAML file to translate CSV columns.
 - **Blank Field Policies**: Handle blank fields according to specified policies (e.g., warn, ignore).
-- **Flexible Parsing**: Easily extendable for additional functionalities like type conversion.
+- **Basic Type Conversions**: Enable straightforward conversion of data types, ensuring seamless handling of CSV column data.
+- **Automatic CSV Detection**: Automatically detect CSV file characteristics, such as delimiters, ensuring compatibility with various file formats and configurations.
 
 ## Installation
 
@@ -18,18 +19,13 @@ To use the CSV Parsing Tool, clone the repository and ensure you have Ruby insta
 
 ### Basic Usage
 
-To use the tool, initialize a `BaseParser` object with the path to your CSV file and the row configuration:
+To use the tool, initialize a `BaseParser` object with the path to your CSV file or a File object and the row configuration:
 
 ```rb
-require_relative 'base_parser'
-
 file_path = 'path/to/your/file.csv'
-row_config = {
-  'id' => { 'translation' => 'id', 'blank_policy' => 'warn' },
-  'nome' => { 'translation' => 'name' },
-  'idade' => { 'translation' => 'age' },
-  'diagnostico' => { 'translation' => 'diagnosis' }
-}
+# or use => csv = File.read('path/to/your/file.csv')
+
+row_config = 'examplo' # key to yml file
 
 parser = BaseParser.new(file_path, row_config)
 parsed_data = parser.call
@@ -40,16 +36,46 @@ parsed_data = parser.call
 The YAML configuration file specifies how to translate CSV columns and handle blank fields. Here's an example:
 
 ```yml
-identificação: # row name as written in the csv file
-  translation: id # transforms row header to this value 
-  #under development
-  blank_policy: warn #(optional) policy for handling blank values ignore/warn/error
-  type: integer #(optional) calls default functions to perform type transformations
-  transform: custom_function #(optional) calls custom function to transform the value
-nome:
-  translation: name
-idade:
-  translation: age
-diagnostico: 
-  translation: diagnosis
+exemplo:
+  id: # row name as written in the csv file
+    translation: id # transforms row header to this value 
+    blank_policy: error #(optional) policy for handling blank values ignore/warn/error
+    convert: integer #(optional) calls default functions to perform type transformations
+  nome:
+    translation: name
+  idade:
+    translation: age
+    blank_policy: warn
+    convert: integer
+  diagnostico: 
+    translation: diagnosis
+```
+
+## Example output
+
+```rb
+{
+  data: [
+    { id: nil, name: "John Doe", age: 45, diagnosis: "Hypertension" },
+    { id: "102", name: "Jane Smith", age: 0, diagnosis: "Type 2 Diabetes" },
+    { id: "103", name: "Michael Johnson", age: 60, diagnosis: nil },
+    { id: "104", name: "Emily Brown", age: 28, diagnosis: "Seasonal Allergies" },
+    { id: "105", name: "David Martinez", age: 50, diagnosis: "Chronic Obstructive Pulmonary Disease" },
+    { id: "106", name: "Sarah Wilson", age: 38, diagnosis: "Asthma" },
+    { id: "107", name: "Robert Taylor", age: 55, diagnosis: "Coronary Heart Disease" },
+    { id: "108", name: "Emma Anderson", age: 42, diagnosis: "Rheumatoid Arthritis" }
+  ],
+  errors: {
+    :"row-1" => ["Error: Blank value for 'id'"],
+    :"row-2" => ["Warning: Blank value for 'idade'"],
+    :"row-3" => [],
+    :"row-4" => [],
+    :"row-5" => [],
+    :"row-6" => [],
+    :"row-7" => [],
+    :"row-8" => [],
+    :"row-9" => [],
+    :"row-10" => []
+  }
+}
 ```
