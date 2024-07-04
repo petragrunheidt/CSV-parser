@@ -1,22 +1,23 @@
 require_relative 'concerns/blank_policy'
+require_relative 'concerns/detect_csv_options'
 require_relative 'concerns/yml_loader'
 require './lib/converter/base_converter'
 
 class BaseParser
-  include YmlLoader
   include BlankPolicy
-  attr_reader :csv_body, :row_config, :translation_hash
+  include DetectCsvOptions
+  include YmlLoader
+  attr_reader :csv_body, :translation_hash
 
-  def initialize(file_path, row_config)
-    @csv_body = File.read(file_path)
-    @row_config = row_config
-    @translation_hash = load_yml(File.basename(file_path, '.csv'))
+  def initialize(csv, row_config)
+    @csv_body = File.exist?(csv) ? File.read(csv) : csv
+    @translation_hash = load_yml(row_config || File.basename(file_path, '.csv'))
   end
 
   def call
-    CSV.parse(csv_body, col_sep: ',', row_sep: "\n", headers: true)
-       .each_with_object({ data: [], errors: {} })
-       .with_index do |(csv_row, result), index|
+    parsed_csv
+      .each_with_object({ data: [], errors: {} })
+      .with_index do |(csv_row, result), index|
       row = translate_row(csv_row, translation_hash)
       row_number = :"row-#{index + 1}"
 
@@ -26,6 +27,12 @@ class BaseParser
   end
 
   private
+
+  def parsed_csv
+    csv_options = detect_csv_options
+
+    CSV.parse(csv_body, **csv_options)
+  end
 
   def translate_row(data_hash, translation_hash)
     translation_hash
