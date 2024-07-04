@@ -42,7 +42,7 @@ RSpec.describe BaseParser do
       it 'does not save warning if policy is set to ignore' do
         parsed_list = BaseParser.new(csv_path, 'sample').call
 
-        expect(parsed_list[:errors][:'row-3']).to be_empty
+        expect(parsed_list[:errors]).not_to include(:'row-3')
       end
     end
   end

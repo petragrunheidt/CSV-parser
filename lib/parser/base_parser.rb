@@ -22,7 +22,7 @@ class BaseParser
       row_number = :"row-#{index + 1}"
 
       result[:data] << row[:data]
-      result[:errors][row_number] = row[:errors]
+      result[:errors][row_number] = row[:errors] unless row[:errors].empty?
     end
   end
 

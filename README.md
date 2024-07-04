@@ -19,13 +19,13 @@ To use the CSV Parsing Tool, clone the repository and ensure you have Ruby insta
 
 ### Basic Usage
 
-To use the tool, initialize a `BaseParser` object with the path to your CSV file or a File object and the row configuration:
+To use the tool, initialize a `BaseParser` object with the path to your CSV file or a File object and the identifier to your yml's row configuration:
 
 ```rb
 file_path = 'path/to/your/file.csv'
 # or use => csv = File.read('path/to/your/file.csv')
 
-row_config = 'examplo' # key to yml file
+row_config = 'exemplo' # key to yml file
 
 parser = BaseParser.new(file_path, row_config)
 parsed_data = parser.call
@@ -63,19 +63,12 @@ exemplo:
     { id: "105", name: "David Martinez", age: 50, diagnosis: "Chronic Obstructive Pulmonary Disease" },
     { id: "106", name: "Sarah Wilson", age: 38, diagnosis: "Asthma" },
     { id: "107", name: "Robert Taylor", age: 55, diagnosis: "Coronary Heart Disease" },
-    { id: "108", name: "Emma Anderson", age: 42, diagnosis: "Rheumatoid Arthritis" }
+    { id: "108", name: "Emma Anderson", age: 42, diagnosis: nil }
   ],
   errors: {
     :"row-1" => ["Error: Blank value for 'id'"],
     :"row-2" => ["Warning: Blank value for 'idade'"],
-    :"row-3" => [],
-    :"row-4" => [],
-    :"row-5" => [],
-    :"row-6" => [],
-    :"row-7" => [],
-    :"row-8" => [],
-    :"row-9" => [],
-    :"row-10" => []
+    :"row-8" => ["Warning: Blank value for 'diagnostico'"]
   }
 }
 ```
