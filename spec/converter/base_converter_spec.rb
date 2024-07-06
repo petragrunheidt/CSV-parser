@@ -100,4 +100,12 @@ RSpec.describe BaseConverter do
       end
     end
   end
+
+  context 'custom conversions' do
+    it 'base converter should read the example lambda in the custom_conversions directory' do
+      converter = BaseConverter.new('hello', 'example')
+
+      expect(converter.call).to eq('hello kitty')
+    end
+  end
 end
