@@ -10,6 +10,7 @@ The CSV Parsing Tool is a Ruby-based utility designed to parse and translate CSV
 - **Blank Field Policies**: Handle blank fields according to specified policies (e.g., warn, ignore).
 - **Basic Type Conversions**: Enable straightforward conversion of data types, ensuring seamless handling of CSV column data.
 - **Automatic CSV Detection**: Automatically detect CSV file characteristics, such as delimiters, ensuring compatibility with various file formats and configurations.
+- **Custom Lambda Functions**: Add custom lambda functions to convert the values of each row, allowing for flexible and dynamic data processing tailored to your specific needs.
 
 ## Installation
 
