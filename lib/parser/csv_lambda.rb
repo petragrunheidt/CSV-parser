@@ -3,7 +3,7 @@ require_relative 'concerns/detect_csv_options'
 require_relative 'concerns/yml_loader'
 require './lib/converter/base_converter'
 
-class BaseParser
+class CsvLambda
   include BlankPolicy
   include DetectCsvOptions
   include YmlLoader
@@ -15,18 +15,22 @@ class BaseParser
   end
 
   def call
+    build_hash_from_csv
+  end
+
+  private
+
+  def build_hash_from_csv
     parsed_csv
       .each_with_object({ data: [], errors: {} })
       .with_index do |(csv_row, result), index|
       row = translate_row(csv_row, translation_hash)
-      row_number = :"row-#{index + 1}"
+      row_id = :"row-#{index + 1}"
 
       result[:data] << row[:data]
-      result[:errors][row_number] = row[:errors] unless row[:errors].empty?
+      result[:errors][row_id] = row[:errors] unless row[:errors].empty?
     end
   end
-
-  private
 
   def parsed_csv
     csv_options = detect_csv_options
