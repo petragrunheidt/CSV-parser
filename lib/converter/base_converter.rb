@@ -11,7 +11,7 @@ class BaseConverter
   end
 
   def call
-    return @value if selected_method.nil?
+    return value if selected_method.nil?
 
     conversion_lambda = methods_list[selected_method]
     raise "Conversion type #{selected_method} not supported" unless conversion_lambda

@@ -15,9 +15,11 @@ module DetectCsvOptions
   private
 
   def detect_col_sep(sample)
-    potential_separators = [',', ';', "\t"]
-    counts = potential_separators.to_h { |sep| [sep, sample.count(sep)] }
-    counts.max_by { |_, count| count }.first
+    potential_sep_chars = sample.gsub(/"[^"]*"/, '').scan(/[^a-zA-Z0-9]/)
+
+    counts = potential_sep_chars.each_with_object(Hash.new(0)) { |char, hash| hash[char] += 1 }
+
+    counts.max_by { |_, count| count }&.first
   end
 
   def detect_row_sep(csv_body)
